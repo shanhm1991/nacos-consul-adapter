@@ -155,6 +155,9 @@ public class LongPollingRegistrationService implements RegistrationService, Appl
                     .service(serviceName)
                     .id(serviceName + "-" + instance.getPort())
                     .port(instance.getPort())
+                    .meta(new HashMap<String, String>(1) {{
+                        put(PROMETHEUS_CUSTOMIZE_TAG, serviceName);
+                    }})
                     .build();
             return ServiceInstancesHealth.builder().node(node).service(service).build();
         }).collect(Collectors.toList());

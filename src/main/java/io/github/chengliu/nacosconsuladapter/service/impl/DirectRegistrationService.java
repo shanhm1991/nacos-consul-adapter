@@ -75,6 +75,9 @@ public class DirectRegistrationService implements RegistrationService {
                             .service(serviceInstance.getServiceId())
                             .id(serviceInstance.getServiceId() + "-" + serviceInstance.getPort())
                             .port(serviceInstance.getPort())
+                            .meta(new HashMap<String, String>(1) {{
+                                put(PROMETHEUS_CUSTOMIZE_TAG, serviceName);
+                            }})
                             .build();
                     return ServiceInstancesHealth.builder().node(node).service(service).build();
                 })

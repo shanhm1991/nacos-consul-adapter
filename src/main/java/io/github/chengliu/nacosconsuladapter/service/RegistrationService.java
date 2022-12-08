@@ -36,6 +36,9 @@ import java.util.Map;
  */
 public interface RegistrationService {
 
+    //Prometheus自定义标签
+    String PROMETHEUS_CUSTOMIZE_TAG = "nacosServiceName";
+
     /**
      * get all service name
      * 获取所有服务名称
