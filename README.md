@@ -81,8 +81,22 @@ Prometheus增加自定义打标签
 
 整合nacos-consul-adapter成功后默认会给注册的每一个微服打nacos_application_name标签， 如果想要增加自定义标签可以在微服务启动注册到nacos时增加元数据metadata
 ![nacos实际效果图](https://user-images.githubusercontent.com/36329283/206841787-5730385a-876d-40e9-96ef-529b753fa664.png)
+接着配置prometheus.yml
+```java
+
+  - job_name: xxx
+    metrics_path: '/actuator/prometheus'
+    consul_sd_configs:
+      - server: xxx
+    relabel_configs:
+      - source_labels: [__meta_consul_service]
+      - regex: __meta_consul_service_metadata_(.+)
+        action: labelmap
+```
+
 然后Prometheus Labels会将nacos的metadata作为自定义标签
 ![Prometheus实际效果图](https://user-images.githubusercontent.com/36329283/206841939-33f48649-5124-4810-8942-abd54fbee063.png)
+
 
 
 
