@@ -71,9 +71,22 @@ spring-boot 2.3+
         return (registry) -> registry.config().commonTags("application", applicationName);
     }
 ```
-这样简单的配置后，启动服务就可以在Prometheus中看到注册在Nacos中的服务了。
-![Prometheus实际效果图](https://img-blog.csdnimg.cn/20210626171800141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0xDQlVTSElIQUhB,size_16,color_FFFFFF,t_70)
+这样简单的配置后，启动服务就可以在Prometheus中看到注册在Nacos中的服务了。并且在Labels默认会给注册的微服务打一个nacos_application_name标签
+![Prometheus实际效果图](https://user-images.githubusercontent.com/36329283/206843239-3057b673-51e8-4c53-87cf-a94a2288f3c7.png)
+
 ![Grafana实际效果图](https://img-blog.csdnimg.cn/20210626172040746.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0xDQlVTSElIQUhB,size_16,color_FFFFFF,t_70)
+
+
+Prometheus增加自定义打标签
+
+整合nacos-consul-adapter成功后默认会给注册的每一个微服打nacos_application_name标签， 如果想要增加自定义标签可以在微服务启动注册到nacos时增加元数据metadata
+![nacos实际效果图](https://user-images.githubusercontent.com/36329283/206841787-5730385a-876d-40e9-96ef-529b753fa664.png)
+然后Prometheus Labels会将nacos的metadata作为自定义标签
+![Prometheus实际效果图](https://user-images.githubusercontent.com/36329283/206841939-33f48649-5124-4810-8942-abd54fbee063.png)
+
+
+
+
 ## 感谢  
 感谢<a href='https://github.com/twinformatics/eureka-consul-adapter'>Eureka Consul Adapter</a>项目开发人员，项目中部分代码借鉴了<a href='https://github.com/twinformatics/eureka-consul-adapter'>Eureka Consul Adapter</a>的实现。
 
