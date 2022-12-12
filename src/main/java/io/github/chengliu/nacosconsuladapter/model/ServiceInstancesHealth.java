@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:consul health class
@@ -74,6 +75,9 @@ public class ServiceInstancesHealth {
 
         @JsonProperty("Port")
         private int port;
+
+        @JsonProperty("Meta")
+        private Map<String, String> meta;
     }
 
     @Getter

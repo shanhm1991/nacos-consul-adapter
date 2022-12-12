@@ -1,17 +1,17 @@
 /**
  * The MIT License
  * Copyright © 2021 liu cheng
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -151,10 +151,15 @@ public class LongPollingRegistrationService implements RegistrationService, Appl
                     //todo 数据中心
                     .dataCenter("dc1")
                     .build();
+
+            Map<String, String> metadataMap = instance.getMetadata();
+            metadataMap.put(NACOS_APPLICATION_NAME, serviceName);
+
             ServiceInstancesHealth.Service service = ServiceInstancesHealth.Service.builder()
                     .service(serviceName)
                     .id(serviceName + "-" + instance.getPort())
                     .port(instance.getPort())
+                    .meta(metadataMap)
                     .build();
             return ServiceInstancesHealth.builder().node(node).service(service).build();
         }).collect(Collectors.toList());
@@ -164,19 +169,19 @@ public class LongPollingRegistrationService implements RegistrationService, Appl
     @SneakyThrows
     private List<ServiceInstancesHealthOld> getServiceInstanceOld(String serviceName) {
         return namingService.selectInstances(serviceName, nacosDiscoveryProperties.getGroup(), true).stream().map(instance -> {
-                    ServiceInstancesHealth.Node node = ServiceInstancesHealth.Node.builder()
-                            .address(instance.getIp())
-                            .id(instance.getInstanceId())
-                            //todo 数据中心
-                            .dataCenter("dc1")
-                            .build();
-                    ServiceInstancesHealth.Service service = ServiceInstancesHealth.Service.builder()
-                            .service(serviceName)
-                            .id(serviceName + "-" + instance.getPort())
-                            .port(instance.getPort())
-                            .build();
-                    return ServiceInstancesHealth.builder().node(node).service(service).build();
-                }).map(serviceInstancesHealth -> new ServiceInstancesHealthOld(serviceInstancesHealth))
+            ServiceInstancesHealth.Node node = ServiceInstancesHealth.Node.builder()
+                    .address(instance.getIp())
+                    .id(instance.getInstanceId())
+                    //todo 数据中心
+                    .dataCenter("dc1")
+                    .build();
+            ServiceInstancesHealth.Service service = ServiceInstancesHealth.Service.builder()
+                    .service(serviceName)
+                    .id(serviceName + "-" + instance.getPort())
+                    .port(instance.getPort())
+                    .build();
+            return ServiceInstancesHealth.builder().node(node).service(service).build();
+        }).map(serviceInstancesHealth -> new ServiceInstancesHealthOld(serviceInstancesHealth))
                 .collect(Collectors.toList());
     }
 
