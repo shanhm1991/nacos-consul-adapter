@@ -39,6 +39,7 @@ spring-boot 2.3+
             <artifactId>nacos-consul-adapter</artifactId>
             <version>version</version>
         </dependency> 
+        
 ```
 如果拉取不到项目，可以在setting文件中添加如下配置:
 ```$xslt
@@ -57,13 +58,18 @@ spring-boot 2.3+
     - server: 引入nacos-consul-adapter实例的ip+端口
       services: []
 ```
-在每个Spring Cloud实例中引入Prometheus监控包：
+在每个Spring Cloud实例中引入Prometheus与actuactor监控包：
 ```
  <dependency>
        <groupId>io.micrometer</groupId>
        <artifactId>micrometer-registry-prometheus</artifactId>
   </dependency>
+  <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+  </dependency>
 ```
+此外还需要开放actuator的端点，不清楚可以参考测试代码中的配置。
 ```java
 @Bean
     MeterRegistryCustomizer<MeterRegistry> configurer(
