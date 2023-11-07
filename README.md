@@ -23,7 +23,7 @@ Prometheus官方提供Consul为注册中心的配置方式，配置后可自动�
 
 ## 要求
 JDK 1.8+  
-spring-cloud-starter-alibaba-nacos-discovery 2.2+  
+spring-cloud-starter-alibaba-nacos-discovery 2.2+  (默认是2.2.4+，如果需要2.2.0+则需要从对应的2.2.0分支获取代码构建)
 spring-boot 2.3+  
 
 较低版本Spring Boot未做测试
@@ -82,8 +82,13 @@ spring-boot 2.3+
 
 ![Grafana实际效果图](https://img-blog.csdnimg.cn/20210626172040746.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0xDQlVTSElIQUhB,size_16,color_FFFFFF,t_70)
 
-
-Prometheus增加自定义打标签
+## 较低版本Spring Cloud如何使用本项目达到监控目的
+- 另外重新创建一个新项目，新的项目使用spring-cloud-starter-alibaba-nacos-discovery 2.2+版本。
+- 引入本项目，具体可参考快速开始。
+- 将这个新项目的服务注册到Nacos。
+- 在Prometheus中配置这个新项目的服务地址。
+做完上面这些就可以监控低版本的Spring Cloud集群了，不过要注意低版本和高版本的Metric是不一样的，要合理选择Grafana的图表。
+## Prometheus增加自定义打标签
 
 整合nacos-consul-adapter成功后默认会给注册的每一个微服打nacos_application_name标签， 如果想要增加自定义标签可以在微服务启动注册到nacos时增加元数据metadata
 ![nacos实际效果图](https://user-images.githubusercontent.com/36329283/206841787-5730385a-876d-40e9-96ef-529b753fa664.png)
