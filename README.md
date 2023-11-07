@@ -23,7 +23,7 @@ Prometheus官方提供Consul为注册中心的配置方式，配置后可自动�
 
 ## 要求
 JDK 1.8+  
-spring-cloud-starter-alibaba-nacos-discovery 2.2.4+  
+spring-cloud-starter-alibaba-nacos-discovery 2.2+  
 spring-boot 2.3+  
 
 较低版本Spring Boot未做测试
