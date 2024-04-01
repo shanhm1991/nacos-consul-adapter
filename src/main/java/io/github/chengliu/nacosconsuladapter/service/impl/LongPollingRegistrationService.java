@@ -45,11 +45,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
-/**
- * @description:长轮询模式
- * @author: lc
- * @createDate: 2021/5/31
- */
 @Slf4j
 public class LongPollingRegistrationService implements RegistrationService, ApplicationRunner {
 
@@ -99,8 +94,9 @@ public class LongPollingRegistrationService implements RegistrationService, Appl
         //如果index和现在的version不同（只有可能是index 小于version）,说明服务发生了变动马上返回。
         if (index == null || !index.equals(version)) {
             log.debug("{} had changed,direct return.", serviceName);
-            return Mono.just(new Result<List<ServiceInstancesHealth>>(getServiceInstance(serviceName), version));
+            return Mono.just(new Result<>(getServiceInstance(serviceName), version));
         }
+
         return nacosServiceCenter.getChangeHotSource(serviceName)
                 .map(result -> result.getChangeIndex())
                 .timeout(Duration.ofMillis(waitMillis), Flux.just(version))
@@ -113,7 +109,7 @@ public class LongPollingRegistrationService implements RegistrationService, Appl
                     } else {
                         log.debug("during long-polling,{} not changed.version is {}", serviceName, newVersion);
                     }
-                    return new Result<List<ServiceInstancesHealth>>(getServiceInstance(serviceName), newVersion);
+                    return new Result<>(getServiceInstance(serviceName), newVersion);
                 });
     }
 
@@ -154,6 +150,7 @@ public class LongPollingRegistrationService implements RegistrationService, Appl
 
             Map<String, String> metadataMap = instance.getMetadata();
             metadataMap.put(NACOS_APPLICATION_NAME, serviceName);
+            log.info("meta1: " + metadataMap);
 
             ServiceInstancesHealth.Service service = ServiceInstancesHealth.Service.builder()
                     .service(serviceName)
@@ -198,9 +195,6 @@ public class LongPollingRegistrationService implements RegistrationService, Appl
 
     @PreDestroy
     public void shutdown() {
-
         executorService.shutdownNow();
     }
-
-
 }

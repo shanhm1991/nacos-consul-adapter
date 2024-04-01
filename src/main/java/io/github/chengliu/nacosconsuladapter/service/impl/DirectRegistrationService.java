@@ -33,11 +33,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.*;
 
-/**
- * @description:直接请求注册中心模式
- * @author: lc
- * @createDate: 2021/5/31
- */
 @RequiredArgsConstructor
 @Slf4j
 public class DirectRegistrationService implements RegistrationService {
@@ -74,6 +69,7 @@ public class DirectRegistrationService implements RegistrationService {
 
                     Map<String, String> metadataMap = serviceInstance.getMetadata();
                     metadataMap.put(NACOS_APPLICATION_NAME, serviceName);
+                    log.info("meta2: " + metadataMap);
 
                     ServiceInstancesHealth.Service service = ServiceInstancesHealth.Service.builder()
                             .service(serviceInstance.getServiceId())

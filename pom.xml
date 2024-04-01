@@ -6,11 +6,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.11.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>io.github.chen-gliu</groupId>
     <artifactId>nacos-consul-adapter</artifactId>
-    <version>0.0.5.M</version>
+    <version>1.0.0</version>
     <name>nacos-consul-adapter</name>
     <url>https://github.com/chen-gliu/nacos-consul-adapter</url>
     <description>适配nacos使用promethues consul</description>
@@ -108,7 +108,6 @@
                         </execution>
                     </executions>
                 </plugin>
-                <!-- Source -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -125,89 +124,6 @@
                         </execution>
                     </executions>
                 </plugin>
-                <!-- Javadoc -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
-                    <configuration>
-                        <show>private</show>
-                        <charset>UTF-8</charset>
-                        <encoding>UTF-8</encoding>
-                        <docencoding>UTF-8</docencoding>
-                        <additionalJOptions>
-                            <additionalJOption>-Xdoclint:none</additionalJOption>
-                        </additionalJOptions>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!--证书-->
-                <plugin>
-                    <groupId>com.mycila</groupId>
-                    <artifactId>license-maven-plugin</artifactId>
-                    <version>3.0</version>
-                    <configuration>
-                        <header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
-                        <properties>
-                            <owner>liu cheng</owner>
-                        </properties>
-                        <excludes>
-                            <exclude>**/*.properties</exclude>
-                            <exclude>*.sh</exclude>
-                            <exclude>*.yml</exclude>
-                            <exclude>.editorconfig</exclude>
-                            <exclude>.gitignore</exclude>
-                            <exclude>**/*.md</exclude>
-                            <exclude>**/*.xml</exclude>
-                            <exclude>**/*.cmd</exclude>
-                            <exclude>**/*.iml</exclude>
-                        </excludes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.8</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <serverId>oss</serverId>
-                        <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>
-                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.5</version>
-                    <executions>
-                        <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!--Release -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
@@ -237,16 +153,18 @@
     </build>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>oss</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
         <repository>
-            <id>oss</id>
-            <name>Nexus Release Repository</name>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>cowave</id>
+            <name>releases</name>
+            <url>http://10.64.4.74:8081/repository/maven-releases/</url>
+            <uniqueVersion>true</uniqueVersion>
         </repository>
+        <snapshotRepository>
+            <id>cowave</id>
+            <name>snapshots</name>
+            <url>http://10.64.4.74:8081/repository/maven-snapshots/</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
     </distributionManagement>
 
 </project>
